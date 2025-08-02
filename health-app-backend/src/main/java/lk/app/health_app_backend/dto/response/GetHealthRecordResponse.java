@@ -19,4 +19,18 @@ public class GetHealthRecordResponse {
     private Double bmr;
     private Double calorieNeeds;
     private LocalDate date;
+    
+    // New advanced health metrics
+    private Double tdee; // Total Daily Energy Expenditure
+    private Double idealBodyWeight;
+    private Double bodyFatPercentage;
+    private Double proteinGrams;
+    private Double fatGrams;
+    private Double carbsGrams;
+    private Double waterIntakeLiters;
+    private String activityLevel;
+    private Double waist;
+    private Double neck;
+    private Double hip;
+    private String weather;
 }

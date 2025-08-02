@@ -42,7 +42,19 @@ public class HealthRecordController {
                 hr.getBmi(),
                 hr.getBmr(),
                 hr.getCalorieNeeds(),
-                hr.getDate()
+                hr.getDate(),
+                hr.getTdee(),
+                hr.getIdealBodyWeight(),
+                hr.getBodyFatPercentage(),
+                hr.getProteinGrams(),
+                hr.getFatGrams(),
+                hr.getCarbsGrams(),
+                hr.getWaterIntakeLiters(),
+                hr.getActivityLevel(),
+                hr.getWaist(),
+                hr.getNeck(),
+                hr.getHip(),
+                hr.getWeather()
             )).collect(Collectors.toList());
         return ResponseEntity.ok(records);
     }

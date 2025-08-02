@@ -6,6 +6,7 @@ import lk.app.health_app_backend.exception.HealthRecordNotFoundException;
 import lk.app.health_app_backend.model.HealthRecord;
 import lk.app.health_app_backend.model.User;
 import lk.app.health_app_backend.repository.HealthRecordRepository;
+import lk.app.health_app_backend.service.AdvancedHealthCalculatorService;
 import lk.app.health_app_backend.service.HealthRecordService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class HealthRecordServiceImpl implements HealthRecordService {
     private HealthRecordRepository healthRecordRepository;
+    private AdvancedHealthCalculatorService advancedHealthCalculatorService;
 
     @Override
     public GetHealthRecordResponse createHealthRecord(HealthRecordCreateRequest healthRecordCreateRequest, User user) {
@@ -41,6 +43,9 @@ public class HealthRecordServiceImpl implements HealthRecordService {
         Double calorieNeeds = bmr * 1.2;
         healthRecord.setCalorieNeeds(calorieNeeds);
 
+        // Apply advanced health calculations
+        advancedHealthCalculatorService.applyAdvancedCalculations(healthRecord, healthRecordCreateRequest);
+
         // Set current date
         healthRecord.setDate(java.time.LocalDate.now());
 
@@ -60,7 +65,19 @@ public class HealthRecordServiceImpl implements HealthRecordService {
             healthRecord.getBmi(),
             healthRecord.getBmr(),
             healthRecord.getCalorieNeeds(),
-            healthRecord.getDate()
+            healthRecord.getDate(),
+            healthRecord.getTdee(),
+            healthRecord.getIdealBodyWeight(),
+            healthRecord.getBodyFatPercentage(),
+            healthRecord.getProteinGrams(),
+            healthRecord.getFatGrams(),
+            healthRecord.getCarbsGrams(),
+            healthRecord.getWaterIntakeLiters(),
+            healthRecord.getActivityLevel(),
+            healthRecord.getWaist(),
+            healthRecord.getNeck(),
+            healthRecord.getHip(),
+            healthRecord.getWeather()
         );
     }
 
@@ -79,7 +96,19 @@ public class HealthRecordServiceImpl implements HealthRecordService {
             healthRecord.getBmi(),
             healthRecord.getBmr(),
             healthRecord.getCalorieNeeds(),
-            healthRecord.getDate()
+            healthRecord.getDate(),
+            healthRecord.getTdee(),
+            healthRecord.getIdealBodyWeight(),
+            healthRecord.getBodyFatPercentage(),
+            healthRecord.getProteinGrams(),
+            healthRecord.getFatGrams(),
+            healthRecord.getCarbsGrams(),
+            healthRecord.getWaterIntakeLiters(),
+            healthRecord.getActivityLevel(),
+            healthRecord.getWaist(),
+            healthRecord.getNeck(),
+            healthRecord.getHip(),
+            healthRecord.getWeather()
         );
     }
 }

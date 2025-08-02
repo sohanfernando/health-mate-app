@@ -6,28 +6,36 @@ import axios from 'axios';
 const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const token = localStorage.getItem('token');
-  const [latestRecord, setLatestRecord] = useState(null);
+  const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchLatest = async () => {
-      try {
-        // Fetch latest health record for the user (assuming backend supports /health-records?userId=...)
-        const res = await axios.get(`http://localhost:8080/health-records`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        // If backend returns a list, get the latest
-        if (Array.isArray(res.data) && res.data.length > 0) {
-          setLatestRecord(res.data[res.data.length - 1]);
-        }
-      } catch (e) {
-        // ignore errors for now
-      } finally {
-        setLoading(false);
+  const fetchRecords = async () => {
+    try {
+      const res = await axios.get(`http://localhost:8080/health-records`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (Array.isArray(res.data)) {
+        setRecords(res.data);
+      } else {
+        setRecords([]);
       }
-    };
-    fetchLatest();
+    } catch (e) {
+      setRecords([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecords();
   }, [token]);
+
+  const latestRecord = records.length > 0 ? records[records.length - 1] : null;
+
+  const handleNewCalculation = (newRecord) => {
+    // Add the new record to the list and update the state
+    setRecords(prevRecords => [...prevRecords, newRecord]);
+  };
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -37,7 +45,7 @@ const Dashboard = () => {
         <div className="flex flex-wrap gap-4 mt-4">
           <div className="bg-gray-800 rounded-lg p-4 flex-1 min-w-[180px]">
             <div className="text-gray-400 text-sm">Total Records</div>
-            <div className="text-2xl font-bold text-blue-300">{latestRecord ? '1+' : '0'}</div>
+            <div className="text-2xl font-bold text-blue-300">{records.length}</div>
           </div>
           <div className="bg-gray-800 rounded-lg p-4 flex-1 min-w-[180px]">
             <div className="text-gray-400 text-sm">Last BMI</div>
@@ -47,7 +55,7 @@ const Dashboard = () => {
       </div>
       <div className="mb-8">
         <h3 className="text-xl font-semibold mb-4 text-blue-300">Calculate Your Health Stats</h3>
-        <CalculatorForm onResult={setLatestRecord} />
+        <CalculatorForm onResult={handleNewCalculation} />
       </div>
       {latestRecord && (
         <div className="mb-8">

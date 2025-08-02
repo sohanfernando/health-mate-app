@@ -29,6 +29,22 @@ public class HealthRecord {
     private Double calorieNeeds;
     private LocalDate date;
 
+    // New fields for advanced calculations
+    private String activityLevel;
+    private Double waist;
+    private Double neck;
+    private Double hip;
+    private String weather;
+    
+    // Calculated advanced metrics
+    private Double tdee;
+    private Double idealBodyWeight;
+    private Double bodyFatPercentage;
+    private Double proteinGrams;
+    private Double fatGrams;
+    private Double carbsGrams;
+    private Double waterIntakeLiters;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

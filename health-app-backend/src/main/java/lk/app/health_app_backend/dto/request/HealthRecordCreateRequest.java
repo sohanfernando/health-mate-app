@@ -10,4 +10,9 @@ public class HealthRecordCreateRequest {
     private String gender;
     private Double height;
     private Double weight;
+    private String activityLevel; // sedentary, lightly_active, moderately_active, very_active, extremely_active
+    private Double waist; // for body fat calculation
+    private Double neck; // for body fat calculation
+    private Double hip; // for body fat calculation (women only)
+    private String weather; // hot, moderate, cold for water intake
 }
